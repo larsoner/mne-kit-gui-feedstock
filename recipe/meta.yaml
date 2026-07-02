@@ -1,41 +1,42 @@
-{% set name = "mne-kit-gui" %}
-{% set version = "1.3.0" %}
-{% set build = 1 %}
-
+{% set version = "2.0.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: mne-kit-gui
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/mne_kit_gui-{{ version }}.tar.gz
-  sha256: a270acc2dfd3e2127e7d58bbf8bad1c5675d6168b8845dff78748ab0aa12d263
+  url: https://pypi.org/packages/source/m/mne-kit-gui/mne_kit_gui-{{ version }}.tar.gz
+  sha256: ed196147ebea3a331565d8be3ef918392bbb2f58c3026af1f03367cd220a129f
 
 build:
-  number: {{ build }}
   noarch: python
-  script: {{ PYTHON }} -m pip install . -vv
+  script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
+  number: 0
 
 requirements:
   host:
-    - python {{ python_min }}
+    - python >=3.11
+    - setuptools >=64
+    - setuptools-scm >=6.2
     - pip
-    - setuptools
   run:
-    - python >={{ python_min }}
-    - mne-base >=0.23
-    - mayavi
-    - nibabel
+    - python >=3.11
+    - numpy
+    - pyvista >=0.43
+    - pyvistaqt
+    - traitlets
+    - qtpy
+    - mne-base >=1.6
 
 test:
   imports:
     - mne_kit_gui
-    - mne_kit_gui.tests
   commands:
     - pip check
   requires:
     - pip
-    - python {{ python_min }}
+    - python
+    - pyside6
 
 about:
   home: https://github.com/mne-tools/mne-kit-gui
